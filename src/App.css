@@ -2,37 +2,212 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+body {
+  background: linear-gradient(90deg, rgba(48, 16, 255, 1) 0%, rgba(100, 115, 255, 1) 100%);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.todo-app {
+  text-align: center;
   display: flex;
   flex-direction: column;
+  justify-content: start;
+  width: 520px;
+  min-height: 600px;
+  background: #161a2b;
+  margin: 128px auto;
+  border-radius: 10px;
+  padding-bottom: 32px;
+}
+
+h1 {
+  margin: 32px 0;
+  color: #fff;
+  font-size: 24px;
+}
+
+.todo-row {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  margin: 4px auto;
+  color: #fff;
+  padding: 16px;
+  border-radius: 5px;
+  width: 90%;
+}
+
+
+
+.task-title {
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+
+.complete {
+  text-decoration: line-through;
+  opacity: 0.4;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.todo-form {
+  margin-bottom: 32px;
+}
+
+.todo-input {
+  padding: 14px 32px 14px 16px;
+  border-radius: 4px 0 0 4px;
+  border: 2px solid #5d0cff;
+  outline: none;
+  width: 320px;
+  background: #504663;
+  color: #fff;
+}
+.button-input
+{
+  padding: 14px 32px 14px 16px;
+  border-radius: 4px 0 0 4px;
+  border: 2px solid #5d0cff;
+  outline: none;
+  width: 320px;
+  background: #504663;
+  color: #fff;
+}
+.microphone-button{
+  
+  
+    padding: 16px;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    outline: none;
+    background: linear-gradient(90deg, rgba(93, 12, 255, 1) 0%, rgba(155, 0, 250, 1) 100%);
+    color: #fff;
+    text-transform: capitalize;
+  
+}
+
+.todo-input::placeholder {
+  color: #e2e2e2;
+}
+
+.todo-button {
+  padding: 16px;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  outline: none;
+  background: linear-gradient(90deg, rgba(93, 12, 255, 1) 0%, rgba(155, 0, 250, 1) 100%);
+  color: #fff;
+  text-transform: capitalize;
+}
+
+.todo-input.edit {
+  border: 2px solid #149fff;
+}
+
+.todo-button.edit {
+  background: linear-gradient(90deg, rgba(20, 159, 255, 1) 0%, rgba(17, 122, 255, 1) 100%);
+  padding: 16px 22px;
+}
+
+.todo-container {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+}
+
+/* .todo-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 4px auto;
+  color: #fff;
+  background: linear-gradient(90deg, rgba(255, 118, 20, 1) 0%, rgba(255, 84, 17, 1) 100%);
+  padding: 16px;
+  border-radius: 5px;
+  width: 90%;
+} */
+
+.error {
+  color: white;
+  padding: 8px;
+  margin-bottom: 15px;
+}
+.task-item {
+  display: flex;
+  align-items: center;
+  margin: 4px auto;
+  padding: 16px;
+  border-radius: 10px;
+  width: 90%;
+}
+
+.task-item:nth-child(3n + 1) {
+  background-color: #090f5a; /* Color for first item */
+}
+
+.task-item:nth-child(3n + 2) {
+  background-color: #064b06; /* Color for second item */
+}
+
+.task-item:nth-child(3n + 3) {
+  background-color: #520808; /* Color for third item */
+}
+
+
+
+.icons {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.delete-icon {
+  color: #ff5858; /* Update the color for the delete icon */
+  cursor: pointer;
+}
+
+.edit-icon {
+  color: #39a9db; /* Update the color for the edit icon */
+  cursor: pointer;
+}
+
+.task-content {
+  flex-grow: 1;
+}
+
+.task-content h3 {
+  margin: 0;
+}
+
+.task-content p {
+  margin: 0;
+  color: #fff;
+}
+
+
+
+.task-title {
+  color: white;
+}
+
+
+
+/* Example media query for screens smaller than 600px */
+@media (max-width: 600px) {
+  .todo-app {
+    width: 90%; /* Adjust the width for smaller screens */
+    margin: 64px auto; /* Adjust the margin for smaller screens */
   }
-  to {
-    transform: rotate(360deg);
+
+  .todo-input,
+  .todo-button {
+    width: 100%; /* Adjust the width of input and button for smaller screens */
   }
 }
