@@ -1,11 +1,12 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGoogle, faMicrosoft } from '@fortawesome/free-brands-svg-icons';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -19,16 +20,25 @@ const Login = () => {
       messagingSenderId: "854052536774",
       appId: "1:854052536774:web:e1dc9efcbd04c9ece632c7",
       measurementId: "G-BK1VHG6HZ0"
-      // Add other Firebase config options if needed
+      // Firebase config options
     });
+
   }
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-
+  const handleLogin = async (provider) => {
     try {
-      await firebase.auth().signInWithEmailAndPassword(email, password);
-      navigate('/'); // Redirect to '/' after successful login
+      let authProvider = null;
+
+      if (provider === 'google') {
+        authProvider = new firebase.auth.GoogleAuthProvider();
+      } else if (provider === 'microsoft') {
+        authProvider = new firebase.auth.OAuthProvider('microsoft.com');
+      }
+
+      if (authProvider) {
+        await firebase.auth().signInWithPopup(authProvider);
+        navigate('/'); // Redirect to '/' after successful login
+      }
     } catch (error) {
       setError(error.message);
     }
@@ -37,24 +47,14 @@ const Login = () => {
   return (
     <div>
       <h1>Login</h1>
-      <form onSubmit={handleLogin}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="todo-input"
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="todo-input"
-        />
-        <button type="submit" className="todo-button">Login</button>
-        {error && <p>{error}</p>}
-      </form>
+      <button className="todo-button" onClick={() => handleLogin('google')}>
+        <FontAwesomeIcon icon={faGoogle} className="button-icon" /> <b>Login with Google</b>
+      </button>
+      <br></br>
+      <button className="todo-button" onClick={() => handleLogin('microsoft')}>
+        <FontAwesomeIcon icon={faMicrosoft} className="button-icon" /> <b>Login with Microsoft</b>
+      </button>
+      {error && <p>{error}</p>}
     </div>
   );
 };
