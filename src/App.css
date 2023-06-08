@@ -151,15 +151,15 @@ h1 {
 }
 
 .task-item:nth-child(3n + 1) {
-  background-color: #090f5a; /* Color for first item */
+  background-color: #2c36c4; /* Color for first item */
 }
 
 .task-item:nth-child(3n + 2) {
-  background-color: #064b06; /* Color for second item */
+  background-color: #33a533; /* Color for second item */
 }
 
 .task-item:nth-child(3n + 3) {
-  background-color: #520808; /* Color for third item */
+  background-color: #b32d2d; /* Color for third item */
 }
 
 
