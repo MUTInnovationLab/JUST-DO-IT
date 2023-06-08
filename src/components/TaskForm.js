@@ -46,13 +46,23 @@ const TaskForm = ({ addTask, editTask }) => {
   };
 
   const handleSpeechToText = () => {
-    const recognition = new window.webkitSpeechRecognition();
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.lang = 'en-US';
 
     recognition.start();
 
     recognition.onresult = function (event) {
       const speechToText = event.results[0][0].transcript;
-      setTitle(speechToText);
+
+      if (speechToText.includes('title')) {
+        const extractedTitle = speechToText.split('title')[1].trim();
+        setTitle(extractedTitle);
+      }
+
+      if (speechToText.includes('due date')) {
+        const extractedDate = speechToText.split('due date')[1].trim();
+        setDueDate(extractedDate);
+      }
     };
   };
 
