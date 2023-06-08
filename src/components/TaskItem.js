@@ -1,6 +1,7 @@
 // TaskItem.js
 import React from 'react';
-import { RiCloseCircleLine } from 'react-icons/ri';
+import { AiFillDelete } from 'react-icons/ai';
+
 import { AiFillEdit } from 'react-icons/ai';
 
 const TaskItem = ({ task, deleteTask, editTask }) => {
@@ -19,16 +20,8 @@ const TaskItem = ({ task, deleteTask, editTask }) => {
         <p className="date">Due Date: {task.dueDate}</p>
       </div>
       <div className="icons">
-        <AiFillEdit
-          onClick={handleEdit}
-          className="edit-icon"
-          style={{ fontSize: '20px', cursor: 'pointer' }}
-        />
-        <RiCloseCircleLine
-          onClick={handleDelete}
-          className="delete-icon"
-          style={{ fontSize: '20px', cursor: 'pointer' }}
-        />
+        <button type="button" onClick={handleEdit} className="edit-icon" title="edit Task" ><AiFillEdit/></button> 
+         <button type="button" onClick={handleDelete} className="delete-icon" title="Delete Task"><AiFillDelete/></button> 
       </div>
     </div>
   );

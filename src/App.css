@@ -164,20 +164,26 @@ h1 {
 
 
 
-.icons {
-  display: flex;
-  align-items: center;
-  margin-right: 10px;
-}
 
 .delete-icon {
-  color: #ff5858; /* Update the color for the delete icon */
+  background: linear-gradient(90deg, rgba(93, 12, 255, 1) 0%, rgba(155, 0, 250, 1) 100%);
+  color: #ff00c8; /* Update the color for the delete icon */
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  margin-right: 5px;
+  font-size: 25px; /* Update the font size to change the icon size */
 }
 
+
 .edit-icon {
-  color: #39a9db; /* Update the color for the edit icon */
+  background: linear-gradient(90deg, rgba(93, 12, 255, 1) 0%, rgba(155, 0, 250, 1) 100%);
+  color: #ff00c8; /* Update the color for the delete icon */
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  margin-right: 5px;
+  font-size: 25px; /* Update the font size to change the icon size */
 }
 
 .task-content {
