@@ -5,6 +5,8 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle, faMicrosoft } from '@fortawesome/free-brands-svg-icons';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+
 
 const Login = () => {
   const [error, setError] = useState('');
