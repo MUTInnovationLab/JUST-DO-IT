@@ -6,6 +6,7 @@ const TaskForm = ({ addTask, editTask }) => {
   const [id, setId] = useState('');
   const [title, setTitle] = useState('');
   const [dueDate, setDueDate] = useState('');
+  const [description, setDescription] = useState(''); // New state for description
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -13,10 +14,12 @@ const TaskForm = ({ addTask, editTask }) => {
       setId(editTask.id);
       setTitle(editTask.title);
       setDueDate(editTask.dueDate);
+      setDescription(editTask.description); // Set the description from editTask
     } else {
       setId('');
       setTitle('');
       setDueDate('');
+      setDescription('');
     }
   }, [editTask]);
 
@@ -33,7 +36,7 @@ const TaskForm = ({ addTask, editTask }) => {
       return;
     }
 
-    const task = { id, title, dueDate };
+    const task = { id, title, dueDate, description }; // Include description in task object
     if (editTask) {
       addTask(task);
     } else {
@@ -41,6 +44,7 @@ const TaskForm = ({ addTask, editTask }) => {
       setId('');
       setTitle('');
       setDueDate('');
+      setDescription('');
     }
     setError('');
   };
@@ -63,6 +67,11 @@ const TaskForm = ({ addTask, editTask }) => {
         const extractedDate = speechToText.split('due date')[1].trim();
         setDueDate(extractedDate);
       }
+
+      if (speechToText.includes('description')) { // Handle description speech input
+        const extractedDescription = speechToText.split('description')[1].trim();
+        setDescription(extractedDescription);
+      }
     };
   };
 
@@ -81,6 +90,12 @@ const TaskForm = ({ addTask, editTask }) => {
         </button>
       </div>
       {error && <p className="error">{error}</p>}
+      <textarea
+        placeholder="Task Description" // Use textarea for multi-line input
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        className="todo-input"
+      />
       <input
         type="date"
         value={dueDate}
