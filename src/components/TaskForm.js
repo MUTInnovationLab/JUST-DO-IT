@@ -6,7 +6,8 @@ const TaskForm = ({ addTask, editTask }) => {
   const [id, setId] = useState('');
   const [title, setTitle] = useState('');
   const [dueDate, setDueDate] = useState('');
-  const [description, setDescription] = useState(''); // New state for description
+  const [description, setDescription] = useState('');
+  const [time, setTime] = useState(''); // New state for time
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -14,12 +15,14 @@ const TaskForm = ({ addTask, editTask }) => {
       setId(editTask.id);
       setTitle(editTask.title);
       setDueDate(editTask.dueDate);
-      setDescription(editTask.description); // Set the description from editTask
+      setDescription(editTask.description);
+      setTime(editTask.time); // Set the time from editTask
     } else {
       setId('');
       setTitle('');
       setDueDate('');
       setDescription('');
+      setTime('');
     }
   }, [editTask]);
 
@@ -36,7 +39,12 @@ const TaskForm = ({ addTask, editTask }) => {
       return;
     }
 
-    const task = { id, title, dueDate, description }; // Include description in task object
+    if (time === '') {
+      setError('Time must be selected');
+      return;
+    }
+
+    const task = { id, title, dueDate, description, time }; // Include time in task object
     if (editTask) {
       addTask(task);
     } else {
@@ -45,6 +53,7 @@ const TaskForm = ({ addTask, editTask }) => {
       setTitle('');
       setDueDate('');
       setDescription('');
+      setTime('');
     }
     setError('');
   };
@@ -68,9 +77,14 @@ const TaskForm = ({ addTask, editTask }) => {
         setDueDate(extractedDate);
       }
 
-      if (speechToText.includes('description')) { // Handle description speech input
+      if (speechToText.includes('description')) {
         const extractedDescription = speechToText.split('description')[1].trim();
         setDescription(extractedDescription);
+      }
+
+      if (speechToText.includes('time')) { // Handle time speech input
+        const extractedTime = speechToText.split('time')[1].trim();
+        setTime(extractedTime);
       }
     };
   };
@@ -91,17 +105,23 @@ const TaskForm = ({ addTask, editTask }) => {
       </div>
       {error && <p className="error">{error}</p>}
       <textarea
-        placeholder="Task Description" // Use textarea for multi-line input
+        placeholder="Task Description"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
         className="todo-input"
       />
-      <input
-        type="date"
-        value={dueDate}
-        onChange={(e) => setDueDate(e.target.value)}
-        className="todo-input"
-      />
+      <div className="datetime-container">
+        <input
+          type="datetime-local"
+          value={dueDate && time ? `${dueDate}T${time}` : ''}
+          onChange={(e) => {
+            const [newDueDate, newTime] = e.target.value.split('T');
+            setDueDate(newDueDate);
+            setTime(newTime);
+          }}
+          className="todo-input"
+        />
+      </div>
       <button type="submit" className="todo-button">
         {editTask ? 'Update Task' : 'Add Task'}
       </button>

@@ -15,7 +15,6 @@ const TaskList = () => {
       setTasks([...tasks, { ...task, id: Date.now() }]);
     }
   };
-  
 
   const editTaskItem = (task) => {
     setEditTask(task);

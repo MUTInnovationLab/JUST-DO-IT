@@ -161,7 +161,17 @@ h1 {
 .task-item:nth-child(3n + 3) {
   background-color: #b32d2d; /* Color for third item */
 }
-
+.task-description {
+  
+  resize: vertical; 
+  padding: 14px 32px 14px 16px;
+  border-radius: 4px 0 0 4px;
+  border: 2px solid #5d0cff;
+  outline: none;
+  width: 320px;
+  background: #504663;
+  color: #fff;
+}
 
 
 
