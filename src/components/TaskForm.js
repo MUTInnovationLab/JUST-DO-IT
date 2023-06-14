@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMicrophone } from '@fortawesome/free-solid-svg-icons';
+import { signOut } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
+import { getAuth } from 'firebase/auth';
+
 
 const TaskForm = ({ addTask, editTask }) => {
   const [id, setId] = useState('');
   const [title, setTitle] = useState('');
   const [dueDate, setDueDate] = useState('');
   const [description, setDescription] = useState('');
-  const [time, setTime] = useState(''); // New state for time
+  const [time, setTime] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (editTask) {
@@ -16,7 +21,7 @@ const TaskForm = ({ addTask, editTask }) => {
       setTitle(editTask.title);
       setDueDate(editTask.dueDate);
       setDescription(editTask.description);
-      setTime(editTask.time); // Set the time from editTask
+      setTime(editTask.time);
     } else {
       setId('');
       setTitle('');
@@ -44,7 +49,7 @@ const TaskForm = ({ addTask, editTask }) => {
       return;
     }
 
-    const task = { id, title, dueDate, description, time }; // Include time in task object
+    const task = { id, title, dueDate, description, time };
     if (editTask) {
       addTask(task);
     } else {
@@ -58,35 +63,18 @@ const TaskForm = ({ addTask, editTask }) => {
     setError('');
   };
 
+  const handleLogout = async () => {
+    try {
+      const auth = getAuth();
+      await signOut(auth);
+      navigate('/login');
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
   const handleSpeechToText = () => {
-    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-    recognition.lang = 'en-US';
-
-    recognition.start();
-
-    recognition.onresult = function (event) {
-      const speechToText = event.results[0][0].transcript;
-
-      if (speechToText.includes('title')) {
-        const extractedTitle = speechToText.split('title')[1].trim();
-        setTitle(extractedTitle);
-      }
-
-      if (speechToText.includes('due date')) {
-        const extractedDate = speechToText.split('due date')[1].trim();
-        setDueDate(extractedDate);
-      }
-
-      if (speechToText.includes('description')) {
-        const extractedDescription = speechToText.split('description')[1].trim();
-        setDescription(extractedDescription);
-      }
-
-      if (speechToText.includes('time')) { // Handle time speech input
-        const extractedTime = speechToText.split('time')[1].trim();
-        setTime(extractedTime);
-      }
-    };
+    // Speech to text code here
   };
 
   return (
@@ -125,6 +113,11 @@ const TaskForm = ({ addTask, editTask }) => {
       <button type="submit" className="todo-button">
         {editTask ? 'Update Task' : 'Add Task'}
       </button>
+      <br />
+      <button className="todo-button" onClick={handleLogout}>
+        Logout
+      </button>
+      {error && <p>{error}</p>}
     </form>
   );
 };
