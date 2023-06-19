@@ -216,7 +216,9 @@ h1 {
 .task-title {
   color: white;
 }
-
+.register-link {
+  color: white;
+}
 
 
 /* Example media query for screens smaller than 600px */

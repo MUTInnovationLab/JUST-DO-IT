@@ -1,46 +1,38 @@
-
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGoogle, faMicrosoft } from '@fortawesome/free-brands-svg-icons';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-
+import { Link, useNavigate } from 'react-router-dom';
+import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, OAuthProvider } from 'firebase/auth';
 
 const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const auth = getAuth();
+  const googleProvider = new GoogleAuthProvider();
+  const microsoftProvider = new OAuthProvider('microsoft.com');
 
-  // Initialize Firebase with your configuration
-  if (!firebase.apps.length) {
-    firebase.initializeApp({
-      apiKey: "AIzaSyAGlMisk1-FhAwadqkpVHz716IGEJlqxuQ",
-      authDomain: "just-do-it-b69f3.firebaseapp.com",
-      projectId: "just-do-it-b69f3",
-      storageBucket: "just-do-it-b69f3.appspot.com",
-      messagingSenderId: "854052536774",
-      appId: "1:854052536774:web:e1dc9efcbd04c9ece632c7",
-      measurementId: "G-BK1VHG6HZ0"
-      // Firebase config options
-    });
-
-  }
-
-  const handleLogin = async (provider) => {
+  const handleEmailLogin = async () => {
     try {
-      let authProvider = null;
+      await signInWithEmailAndPassword(auth, email, password);
+      navigate('/'); // Redirect to '/' after successful login
+    } catch (error) {
+      setError(error.message);
+    }
+  };
 
-      if (provider === 'google') {
-        authProvider = new firebase.auth.GoogleAuthProvider();
-      } else if (provider === 'microsoft') {
-        authProvider = new firebase.auth.OAuthProvider('microsoft.com');
-      }
+  const handleGoogleLogin = async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+      navigate('/'); // Redirect to '/' after successful login
+    } catch (error) {
+      setError(error.message);
+    }
+  };
 
-      if (authProvider) {
-        await firebase.auth().signInWithPopup(authProvider);
-        navigate('/'); // Redirect to '/' after successful login
-      }
+  const handleMicrosoftLogin = async () => {
+    try {
+      await signInWithPopup(auth, microsoftProvider);
+      navigate('/'); // Redirect to '/' after successful login
     } catch (error) {
       setError(error.message);
     }
@@ -49,14 +41,36 @@ const Login = () => {
   return (
     <div>
       <h1>Login</h1>
-      <button className="todo-button" onClick={() => handleLogin('google')}>
-        <FontAwesomeIcon icon={faGoogle} className="button-icon" /> <b>Login with Google</b>
+      <input
+        type="email"
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        className='todo-input '
+      />
+      <br />
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        className='todo-input '
+      />
+      <br />
+      <button className="todo-button" onClick={handleEmailLogin}>
+        Login with Email
       </button>
-      <br></br>
-      <button className="todo-button" onClick={() => handleLogin('microsoft')}>
-        <FontAwesomeIcon icon={faMicrosoft} className="button-icon" /> <b>Login with Microsoft</b>
+      <br />
+      <button className="todo-button" onClick={handleGoogleLogin}>
+        Login with Google
+      </button>
+      <button className="todo-button" onClick={handleMicrosoftLogin}>
+        Login with Microsoft
       </button>
       {error && <p>{error}</p>}
+      <p className="register-link">
+        Don't have an account? <Link to="/register">Register</Link>
+      </p>
     </div>
   );
 };
